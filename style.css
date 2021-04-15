@@ -1,29 +1,57 @@
 body {
 	font: 0.9em 'Roboto', Arial;
 	margin: 0;
+	background-image: url(background.jpeg);
 }
 .container {
-	width: 940px;
-	margin: auto;
+	width: 80%;
+	margin: 0 10%;
+	justify-content: center;
+	align-items: center;
+	display: flex;
 }
 .main, .side {
 	display: inline-block;
 	float: left;
 }
 .main {
-	width: 660px;
-	margin-right: 30px;
+	width: 60%;
+	justify-content: center;
+	align-items: center;
+	display: flex;
 }
 .side {
-	width: 250px;
+	width: 20%;
+	margin-left: 10%;
 }
 h1 {
-	background: #eee;
+	color: white;
+	background: rgba(0, 0, 0, 0.7);
 	padding: 10px;
 	text-align: center;
+	border: 0;
+		
 }
-h3 {
-	border-bottom: 1px solid #888;
+
+h1:hover{
+	color: rgb(255, 255, 255);
+	background:rgb(81, 187, 99);
+	padding: 10px;
+	text-align: center;
+	border-bottom: 0px solid rgb(112, 255, 136);
+	box-shadow: 5px 1px 5px #376B9A;
+}
+
+h1 a{
+	color: rgb(112, 255, 136);
+}
+
+h1:hover a{
+	color: rgb(0, 0, 0);
+}
+
+h2 {
+	border-bottom: 2px solid #888;
 }
 input[type="file"] {
 	display: none;
@@ -37,17 +65,23 @@ button:disabled {
 }
 .btn, input[type="button"] {
 	display: inline-block;
-	background: #0F53DD;
-	padding: 7px 8px;
+	background: #000000;
+	padding: 10px 20px;
+	font-size: 18px;
 	margin: 4px 0;
-	border: 0;
+	border: 3px solid rgb(81, 187, 99);
+	border-radius: 7px;
 	color: #fff;
 	text-decoration: none;
 	text-align: center;
 	cursor: pointer;
+	font-weight: bolder;
 }
 .btn:hover {
-	background: #2d72ff;
+	background: rgb(81, 187, 99);
+	border: 3px solid black;
+	color: white;
+	font-weight: bolder;
 }
 .btn-fb, input.btn-fb {
 	display: block;
@@ -58,11 +92,17 @@ button:disabled {
 }
 #btn-download {
 	display: block;
-	background: forestgreen;
-	/*padding: 10px;*/
+	background: rgb(81, 187, 99);
+	border: 2px solid black;
+	color: black;
+	font-weight: bolder;
 }
+
 #btn-download:hover {
-	background: rgb(71, 192, 71);
+	background: rgb(0, 0, 0);
+	color: white;
+	font-weight: bolder;
+	border: 3px solid rgb(81, 187, 99);
 }
 canvas {
 	cursor: move;

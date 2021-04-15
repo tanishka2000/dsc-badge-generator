@@ -1,21 +1,5 @@
-window.fbAsyncInit = function() {
-    FB.init({
-        appId: '995558610511572',
-        xfbml: true,
-        version: 'v2.5',
-        'fileUpload': true
-    });
-};
 
-(function(d, s, id){
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {return;}
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
-var SIDE_LENGTH = 650;
+var SIDE_LENGTH = 625;
 
 var canvasNode = document.getElementById('canvas');
 canvasNode.width = SIDE_LENGTH;
@@ -26,9 +10,7 @@ canvasNode.addEventListener('mouseup', endDrag);
 
 var downloadBtn = document.getElementById('btn-download');
 downloadBtn.addEventListener('click', download);
-document.getElementById('btn-update').addEventListener('click', uploadToFacebook);
 document.getElementById('imageLoader').addEventListener('change', handleImage, false);
-document.getElementById('btn-getCurrent').addEventListener('click', getFBProfPic);
 
 document.getElementById('scale').addEventListener('mousemove', scale);
 document.getElementById('rot-r').addEventListener('click', rotateClockwise);
@@ -42,7 +24,7 @@ bg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEA
 var overlay = new Image();
 overlay.setAttribute('crossOrigin', 'anonymous');
 overlay.onload = init;
-overlay.src = 'wf.png';    
+overlay.src = 'insta.png';    
 
 function init() {
     canvasPic = {
@@ -94,59 +76,6 @@ function init() {
 function download() {
     downloadBtn.href = canvasPic.node.toDataURL('image/png');
     downloadBtn.download = 'profile.png';
-}
-
-function getFBProfPic() {
-    FB.login(function(response) {
-        FB.api('me/picture?redirect=1&width='+SIDE_LENGTH, function(response) {
-            var img = new Image();
-            img.setAttribute('crossOrigin', 'anonymous');
-            img.onload = (function() {
-                return function() {
-                    canvasPic.img = this;
-                    canvasPic.draw();
-                }
-            })();
-            img.src = response.data.url;
-        });
-    });
-}
-
-function uploadToFacebook() {
-    var blob = dataURItoBlob(canvasPic.node.toDataURL('image/png'));
-    FB.login(function(response) {
-        var aid;
-        var access_token = response.authResponse.accessToken;
-        var data = new FormData();
-        data.append('access_token', access_token);
-        data.append('source', blob);
-        data.append('no_story', true);
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function() {
-            var pid = JSON.parse(this.response).id;
-            window.open('https://www.facebook.com/photo.php?fbid=' + pid + '&makeprofile=1&makeuserprofile=1', '_blank');
-        }
-        
-        FB.api('me/albums', function(response) {
-            var albums = response.data;
-            for (var i=0; i<albums.length; i++) {
-                if (albums[i].name == "Custom Profile Pictures") {
-                    aid = albums[i].id;
-                    xhr.open('POST', 'https://graph.facebook.com/'+aid+'/photos?access_token='+access_token);
-                    xhr.send(data);
-                }
-            }
-            if (!aid) {
-                FB.api('me/albums', 'POST', 
-                    {'name': 'Custom Profile Pictures'}, function(response) {
-                    aid = response.id;
-                    xhr.open('POST', 'https://graph.facebook.com/'+aid+'/photos?access_token='+access_token);
-                    xhr.send(data);
-                });
-            }
-        });
-
-    }, {scope: 'user_photos,publish_actions'});
 }
 
 function dataURItoBlob(dataURI) {
