@@ -1,9 +1,10 @@
 
-var SIDE_LENGTH = 625;
+var SIDE_LEN = 750;
+var SIDE_LENGTH = 500;
 
 var canvasNode = document.getElementById('canvas');
-canvasNode.width = SIDE_LENGTH;
-canvasNode.height = SIDE_LENGTH;
+canvasNode.width = 500;
+canvasNode.height = 500;
 canvasNode.addEventListener('mousedown', startDrag);
 canvasNode.addEventListener('mousemove', dragImage);
 canvasNode.addEventListener('mouseup', endDrag);
@@ -15,6 +16,9 @@ document.getElementById('imageLoader').addEventListener('change', handleImage, f
 document.getElementById('scale').addEventListener('mousemove', scale);
 document.getElementById('rot-r').addEventListener('click', rotateClockwise);
 document.getElementById('rot-l').addEventListener('click', rotateCounterClockwise);
+var temp = document.getElementById('frame-pip').value;
+document.getElementById('frame-pip').addEventListener('click', frameFun);
+console.log(temp); 
 
 var canvasPic;
 
@@ -24,7 +28,8 @@ bg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEA
 var overlay = new Image();
 overlay.setAttribute('crossOrigin', 'anonymous');
 overlay.onload = init;
-overlay.src = 'insta.png';    
+overlay.src = 'insta2.png';
+   
 
 function init() {
     canvasPic = {
@@ -35,10 +40,10 @@ function init() {
         imgY: 0,
         imgScl: 1.0,
         width: function() {
-            return SIDE_LENGTH*this.imgScl;
+            return SIDE_LEN*this.imgScl;
         },
         height: function() {
-            return (this.img.height/this.img.width)*SIDE_LENGTH*this.imgScl;
+            return (SIDE_LEN/SIDE_LEN)*SIDE_LEN*this.imgScl;
         },
         imgRot: 0,
         draw: function() {
@@ -47,7 +52,7 @@ function init() {
             this.context.save();
             this.context.translate(SIDE_LENGTH/2, SIDE_LENGTH/2);
             this.context.rotate(this.imgRot*Math.PI/180);
-            this.context.drawImage(this.img, -SIDE_LENGTH/2+this.imgX, -SIDE_LENGTH/2+this.imgY, this.width(), this.height());
+            this.context.drawImage(this.img, -SIDE_LENGTH/2+this.imgX, -SIDE_LENGTH/2+this.imgY, SIDE_LENGTH, SIDE_LENGTH);
             this.context.restore();
             this.context.drawImage(overlay, 0, 0, SIDE_LENGTH, SIDE_LENGTH);
         },
@@ -108,6 +113,25 @@ function loadImage(file) {
         };
     })();
     reader.readAsDataURL(file);
+}
+
+function frameFun(){
+    temp = document.getElementById('frame-pip').value;
+    if(temp=="full") {
+        overlay.src = 'insta1.png';
+        console.log(temp);
+        document.getElementById('frame-pip').value="dark";
+    } 
+    else if(temp=="dark"){
+        overlay.src = 'insta2.png';
+        console.log(temp);
+        document.getElementById('frame-pip').value="half";
+    }
+    else{
+        overlay.src = 'insta3.png';
+        console.log(temp);
+        document.getElementById('frame-pip').value="full";
+    }
 }
 
 var mouse = {
