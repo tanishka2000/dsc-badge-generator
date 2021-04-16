@@ -1,3 +1,3 @@
 # dsc-badge-generator
 
-Attendee Badge Generator
+[Attendee Badge Generator](https://dscvitpuneattendee.netlify.app/ "Website")
